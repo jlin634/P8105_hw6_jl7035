@@ -35,9 +35,22 @@ bootstrap_df <- weather_df %>%
   mutate(
     models = map(strap, \(samp) lm(tmax ~ tmin, data = samp)),
     results = map(models, broom::tidy),
-    summary = map(models, broom::glance)
-  )
+    summary = map(models, broom::glance),
+    r_squared = map(summary, \(x) x$r.squared),
+    log_beta_prod = map(results, \(x) log(prod(x$estimate)))
+  ) 
+```
 
+## Distribution of R-squared
+
+```{r}
+
+
+```
+
+## Distribution of log(beta_1 * beta_0)
+
+```{r}
 
 ```
 
