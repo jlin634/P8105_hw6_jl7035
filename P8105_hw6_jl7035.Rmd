@@ -61,8 +61,13 @@ tends to center at a little above 0.91.
 ```{r}
 bootstrap_df %>% 
   ggplot(aes(x = log_beta_prod)) + 
-  geom_density()
+  geom_density() +
+  xlab(label = "Log(Beta_0 * Beta_1") +
+  ggtitle(label = "Distribution of Log(Beta_0 * Beta_1)")
 ```
+Examining the distribution of Log(Beta_0 * Beta_1) values, it appears that the
+values for a linear model with minimum temperature as a predictor of max temperature 
+tends to center between 2.00 and 2.025. 
 
 
 ```{r}
