@@ -10,14 +10,6 @@ output: html_document
 library(tidyverse)
 
 ```
-# Useful Functions 
-
-```{r}
-draw_samp = function(df) {
-  sample_frac(df, replace = TRUE)
-}
-```
-
 
 # Problem 1 
 
@@ -38,15 +30,12 @@ weather_df =
 ```
 ## Peform Boostrap
 ```{r}
-bootstrap_data <- 
-  tibble(
-    strap_number = c(1:5000) 
-  ) %>% mutate(
-    strap_sample = map(strap_number, \(x) draw_samp(weather_df))
+boostrap_df <- weather_df %>% 
+  modelr::bootstrap(n = 5000) %>% 
+  mutate(
+    models = map(strap, \(samp) lm(tmax ~ tmin, data = samp)),
+    results = map(models, broom::tidy)
   )
-
-bootstrap_results <- 
-
 
 ```
 
