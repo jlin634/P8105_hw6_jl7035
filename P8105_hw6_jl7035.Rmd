@@ -52,6 +52,9 @@ bootstrap_df %>%
   ggtitle(label = "Distribution of R-Squared Values")
 
 ```
+Examining the distribution of R-squared values, it appears that the R-squared 
+for a linear model with minimum temperature as a predictor of max temperature 
+tends to center at a little above 0.91. 
 
 ## Distribution of log(beta_1 * beta_0)
 
