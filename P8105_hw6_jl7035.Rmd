@@ -36,19 +36,31 @@ bootstrap_df <- weather_df %>%
     models = map(strap, \(samp) lm(tmax ~ tmin, data = samp)),
     results = map(models, broom::tidy),
     summary = map(models, broom::glance),
-    r_squared = map(summary, \(x) x$r.squared),
-    log_beta_prod = map(results, \(x) log(prod(x$estimate)))
-  ) 
+    r_squared = map_dbl(summary, \(x) x$r.squared),
+    log_beta_prod = map_dbl(results, \(x) log(prod(x$estimate)))
+  ) %>% 
+  select(-models,-results, -summary, -strap)
 ```
 
 ## Distribution of R-squared
 
 ```{r}
-
+bootstrap_df %>% 
+  ggplot(aes(x = r_squared)) +
+  geom_density() + 
+  xlab(label = "R-Squared") +
+  ggtitle(label = "Distribution of R-Squared Values")
 
 ```
 
 ## Distribution of log(beta_1 * beta_0)
+
+```{r}
+bootstrap_df %>% 
+  ggplot(aes(x = log_beta_prod)) + 
+  geom_density()
+```
+
 
 ```{r}
 
