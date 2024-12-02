@@ -1,0 +1,14 @@
+---
+title: "P8105_HW6_jl7035"
+author: "Jeffrey Lin"
+date: "2024-12-02"
+output: html_document
+---
+
+# Load Libraries
+```{r}
+library(tidyverse)
+
+```
+
+
