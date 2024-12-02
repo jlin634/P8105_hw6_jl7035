@@ -30,12 +30,14 @@ weather_df =
 ```
 ## Peform Boostrap
 ```{r}
-boostrap_df <- weather_df %>% 
+bootstrap_df <- weather_df %>% 
   modelr::bootstrap(n = 5000) %>% 
   mutate(
     models = map(strap, \(samp) lm(tmax ~ tmin, data = samp)),
-    results = map(models, broom::tidy)
+    results = map(models, broom::tidy),
+    summary = map(models, broom::glance)
   )
+
 
 ```
 
