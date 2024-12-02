@@ -69,9 +69,23 @@ Examining the distribution of Log(Beta_0 * Beta_1) values, it appears that the
 values for a linear model with minimum temperature as a predictor of max temperature 
 tends to center between 2.00 and 2.025. 
 
+## Identify 95% confidence Interval for R-Squared
 
 ```{r}
+bootstrap_df %>% 
+  summarize(
+    lower_ci = quantile(r_squared, 0.025), 
+    upper_ci = quantile(r_squared, 0.975)
+  )
+```
+## Identify the 95% confidence interval of Log (Beta_0 * Beta_1) 
 
+```{r}
+bootstrap_df %>% 
+  summarize(
+    lower_ci = quantile(log_beta_prod, 0.025), 
+    upper_ci = quantile(log_beta_prod, 0.975)
+  )
 ```
 
 
