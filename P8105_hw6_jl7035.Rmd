@@ -88,7 +88,31 @@ bootstrap_df %>%
   )
 ```
 
-
 # Problem 2 
+
+## Load in Data
+```{r}
+homicide_df <- read_csv(
+  file = "Data/homicide-data.csv",
+  na = c("NA", "",".", "na")) %>%
+  drop_na() %>% 
+  mutate(
+    city_state = str_c(city, ", ", state),
+    victim_age = as.numeric(victim_age),
+    solve_status = factor(case_when(
+      disposition %in% c("Closed without arrest", "Open/No arrest") ~ 0,
+      disposition == "Closed by arrest" ~ 1,),
+      labels = c("Unsolved", "Solved")
+    )
+  ) %>% 
+  filter(
+    !(city_state %in% 
+        c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL")
+      ),
+    victim_race %in% c("Black", "White")
+  )
+
+```
+
 
 # Problem 3
