@@ -110,7 +110,8 @@ homicide_df <- read_csv(
     !(city_state %in% 
         c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL")
       ),
-    victim_race %in% c("Black", "White")
+    victim_race %in% c("Black", "White"),
+    victim_sex %in% c("Female", "Male")
   ) 
 
 ```
@@ -124,15 +125,14 @@ balt_log_reg <- homicide_df %>%
   )
 
 balt_log_reg %>%
-  broom::tidy() %>%
+  broom::tidy(conf.int = TRUE) %>%
   filter(term == "victim_sexMale") %>% 
   mutate(
     adjusted_OR = exp(estimate),
-    adjusted_OR_ci_lower = exp(estimate - (1.96 * std.error)),
-    adjusted_OR_ci_upper = exp(estimate + (1.96 * std.error))
+    adjusted_OR_ci_lower = exp(conf.low),
+    adjusted_OR_ci_upper = exp(conf.high)
   ) %>% 
   select(adjusted_OR:adjusted_OR_ci_upper, p.value)
-
 ```
 ## Logistic Regression for each City
 ```{r}
@@ -149,6 +149,29 @@ log_model_city <- homicide_df %>%
   )
 
 
+OR_by_city <- log_model_city %>% 
+  select(city_state, models) %>% 
+  group_by(city_state) %>% 
+  mutate(
+    summary = map(models, \(x) broom::tidy(x, conf.int = TRUE))
+  ) %>% 
+  unnest(summary) %>% 
+  select(term) %>% 
+  table()
+  
+  
+  filter(term == "victim_sexMale")
+  
+  
+
+
+
+dplyrmutate(
+    adjusted_OR = exp(estimate),
+    adjusted_OR_ci_lower = exp(conf.low),
+    adjusted_OR_ci_upper = exp(conf.high)
+  )
+  
 ```
 
 
