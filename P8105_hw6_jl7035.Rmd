@@ -131,7 +131,7 @@ balt_log_reg %>%
     adjusted_OR_ci_lower = exp(estimate - (1.96 * std.error)),
     adjusted_OR_ci_upper = exp(estimate + (1.96 * std.error))
   ) %>% 
-  select(adjusted_OR:adjusted_OR_ci_upper)
+  select(adjusted_OR:adjusted_OR_ci_upper, p.value)
 
 ```
 
