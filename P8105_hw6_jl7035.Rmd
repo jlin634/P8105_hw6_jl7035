@@ -99,10 +99,11 @@ homicide_df <- read_csv(
   mutate(
     city_state = str_c(city, ", ", state),
     victim_age = as.numeric(victim_age),
+    victim_race = as_factor(victim_race),
     solve_status = factor(case_when(
       disposition %in% c("Closed without arrest", "Open/No arrest") ~ 0,
       disposition == "Closed by arrest" ~ 1,),
-      labels = c("Unsolved", "Solved")
+      labels = c("Unresolved", "Resolved")
     )
   ) %>% 
   filter(
@@ -110,7 +111,19 @@ homicide_df <- read_csv(
         c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL")
       ),
     victim_race %in% c("Black", "White")
+  ) 
+
+```
+## Prediction of Unresolved vs Resolved in Baltimore 
+```{r}
+Balt_log_reg <- homicide_df %>% 
+  filter(city_state == "Baltimore, MD") %>% 
+  glm(solve_status ~ victim_age + victim_sex + victim_race,
+      data = .,
+      family = binomial()
   )
+
+
 
 ```
 
