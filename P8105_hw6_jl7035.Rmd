@@ -204,7 +204,7 @@ birthweight_df <-
 
 ```
 
-## Building Model 
+## Rationale for Model 
 
 Considering that it is difficult to accurately hypothesize which of these 
 predictor variables are statistically significantly and strongly associated 
@@ -216,10 +216,46 @@ in this data set, I propose the use of a step wise regression model. Pertaining
 to the step wise regression, I choose to use backwards selection to account for 
 possible order effects that would come into play from forward selection.
 
-
+## Build Model
 ```{r}
 model_all_vars <- lm(bwt ~ . , data = birthweight_df)
 stepwise_model <- step(model_all_vars, direction = "backward")
 summary(stepwise_model)
+```
+## Plot Model Predictions against Real Data
+
+```{r}
+birthweight_df %>% 
+  modelr::add_residuals(stepwise_model) %>% 
+  modelr::add_predictions(stepwise_model) %>% 
+  ggplot(aes(x = pred, y = resid)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  xlab(label = "Fitted values") +
+  ylab(label = "Residuals") +
+  ggtitle(label = "Residuals vs Fited")
+```
+Although the values are tend cluster densely between 2000 and 4000, they appear 
+to be roughly random in location around the residual line. That is to say, there
+does not appear to be a pattern in the residuals and they cluster roughly 
+horizontally. 
+
+## Birth and Gestational Age Model
+
+```{r}
+
+```
+
+
+## head circumference, length, sex model
+
+```{r}
+
+```
+
+## Model Comparison
+
+```{r}
+
 ```
 
