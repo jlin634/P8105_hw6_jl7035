@@ -8,6 +8,8 @@ output: html_document
 # Load Libraries
 ```{r}
 library(tidyverse)
+library(modelr)
+library(mgcv)
 
 ```
 
@@ -271,11 +273,43 @@ summary(bhead_blength_sex_model)
 
 ## Cross Validate each Model
 
-```{r}
+```{r results = 'hide'}
 cv_df <- 
   modelr::crossv_mc(birthweight_df, 100) %>% 
   mutate(
-    stepwise_mod = map(train, \(data) )
+    stepwise_mod = map(train, \(df) build_stepwise(df)),
+    blength_ga_mod = map(train, \(df) lm(bwt ~ blength + gaweeks, data = df)),
+    head_length_sex_mod = map(train, \(df) lm(bwt ~ bhead*blength*babysex, 
+                                              data = df))
+  ) %>% 
+  mutate(
+    rmse_stepwise = map2_dbl(
+      stepwise_mod, test, \(mod, df) rmse(model = mod, data = df)),
+    rmse_blength_ga = map2_dbl(
+      blength_ga_mod, test, \(mod, df) rmse(model = mod, data = df)),
+    rmse_head_len_sex_mod = map2_dbl(
+      head_length_sex_mod, test, \(mod, df) rmse(model = mod, data = df)
+    )
   )
+```
+
+# Plot RMSE by model
+```{r}
+cv_df %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model",
+    names_prefix = "rmse_",
+    values_to = "rmse"
+  ) %>% 
+  mutate(
+    model = fct_inorder(model)
+  ) %>% 
+  ggplot(aes(x = model, y = rmse)) +
+  geom_violin() +
+  xlab("Model") +
+  ylab("RMSE") +
+  ggtitle("RMSE by Model for Predicting Birthweight")
 ```
 
