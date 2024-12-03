@@ -180,3 +180,27 @@ their crimes resolved. Also broadly, it appears that the confidence intervals
 are increasing as the odds ratio increases.
 
 # Problem 3
+
+## Load and Clean Data
+```{r}
+birthweight_df <- 
+  read_csv(
+    file = "Data/birthweight.csv",
+    na = c("NA", "na", ".", "")
+  ) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    babysex = factor(babysex, levels = c(1,2), labels = c("male", "female")),
+    frace = factor(
+      frace, levels = c(1, 2, 3, 4, 8, 9), 
+      labels = c("White", "Black", "Asian", "Puerto Rican", "Other", "Unknown")),
+    malform = factor(
+      malform, levels = c(0, 1), labels = c("absent", "present")),
+    mrace = factor(
+      mrace, levels = c(1, 2, 3, 4, 8), 
+      labels = c("White", "Black", "Asian", "Puerto Rican", "Other")
+      )
+  )
+
+```
+
