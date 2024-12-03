@@ -152,12 +152,23 @@ log_model_city <- homicide_df %>%
   mutate(
     adjusted_OR = exp(estimate),
     adjusted_OR_ci_lower = exp(conf.low),
-    adjusted_OR_ci_upper = exp(conf.high)
+    adjusted_OR_ci_upper = exp(conf.high),
   ) %>% 
   select(city_state, adjusted_OR:adjusted_OR_ci_upper, p.value)
 ```
 
-
+# OR and CI of Solved Crime Rates of Men compared to Women by City
+```{r}
+log_model_city %>%  
+  ggplot(aes(x = reorder(city_state, adjusted_OR), y = adjusted_OR)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = adjusted_OR_ci_lower, ymax = adjusted_OR_ci_upper)) +
+  xlab(label = "City-State") +
+  ylab(label = "Adjusted Odds Ratio") +
+  ggtitle("Odds Ratio of Crimes being Solved of Men Compared to Women by
+          City") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5))
+```
 
 
 # Problem 3
