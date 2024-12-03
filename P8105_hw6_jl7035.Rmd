@@ -200,7 +200,6 @@ birthweight_df <-
       mrace, levels = c(1, 2, 3, 4, 8), 
       labels = c("White", "Black", "Asian", "Puerto Rican", "Other")
       )
-  )
-
+  ) %>% drop_na()
 ```
 
