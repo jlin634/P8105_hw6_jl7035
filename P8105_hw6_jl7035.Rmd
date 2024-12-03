@@ -201,5 +201,24 @@ birthweight_df <-
       labels = c("White", "Black", "Asian", "Puerto Rican", "Other")
       )
   ) %>% drop_na()
+
+```
+
+## Building Model 
+
+
+Considering that it is difficult to accurately hypothesize which of these 
+predictor variables are statistically significantly and strongly associated 
+with the outcome variable, without further background knowledge or further 
+exploratory data analysis, I propose to take an automatic variable selection 
+procedure. In light of the difficulty with interpreting beta coefficients 
+produced by lasso, as well as the relatively few number of predictor variables 
+in this data set, I propose the use of a step wise regression model. Pertaining 
+to the step wise regression, I choose to use backwards selection to account for 
+possible order effects that would come into play from forward selection.
+
+
+```{r}
+
 ```
 
