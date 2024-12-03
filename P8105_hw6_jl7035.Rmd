@@ -78,7 +78,8 @@ bootstrap_df %>%
   summarize(
     lower_ci = quantile(r_squared, 0.025), 
     upper_ci = quantile(r_squared, 0.975)
-  )
+  ) %>% 
+  knitr::kable()
 ```
 ## Identify the 95% confidence interval of Log (Beta_0 * Beta_1) 
 
@@ -87,7 +88,8 @@ bootstrap_df %>%
   summarize(
     lower_ci = quantile(log_beta_prod, 0.025), 
     upper_ci = quantile(log_beta_prod, 0.975)
-  )
+  ) %>% 
+  knitr::kable()
 ```
 
 # Problem 2 
@@ -134,7 +136,8 @@ balt_log_reg %>%
     adjusted_OR_ci_lower = exp(conf.low),
     adjusted_OR_ci_upper = exp(conf.high)
   ) %>% 
-  select(adjusted_OR:adjusted_OR_ci_upper, p.value)
+  select(adjusted_OR:adjusted_OR_ci_upper, p.value) %>% 
+  knitr::kable()
 ```
 ## Logistic Regression for each City
 ```{r}
