@@ -206,7 +206,6 @@ birthweight_df <-
 
 ## Building Model 
 
-
 Considering that it is difficult to accurately hypothesize which of these 
 predictor variables are statistically significantly and strongly associated 
 with the outcome variable, without further background knowledge or further 
@@ -219,6 +218,8 @@ possible order effects that would come into play from forward selection.
 
 
 ```{r}
-
+model_all_vars <- lm(bwt ~ . , data = birthweight_df)
+stepwise_model <- step(model_all_vars, direction = "backward")
+summary(stepwise_model)
 ```
 
