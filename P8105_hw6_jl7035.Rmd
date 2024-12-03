@@ -138,41 +138,26 @@ balt_log_reg %>%
 ```{r}
 log_model_city <- homicide_df %>% 
   group_by(city_state) %>% 
-  nest(data = -city_state) %>%
+  nest(data = -city_state) %>% 
   mutate(
     models = 
       map(data, 
-          \(x) glm(x$solve_status ~ x$victim_age + x$victim_sex + x$victim_race,
-          data = .,
-          family = binomial())
-      )
-  )
-
-
-OR_by_city <- log_model_city %>% 
-  select(city_state, models) %>% 
-  group_by(city_state) %>% 
-  mutate(
+        \(x) glm(x$solve_status ~ x$victim_age + x$victim_sex + x$victim_race,
+        data = .,
+        family = binomial())),
     summary = map(models, \(x) broom::tidy(x, conf.int = TRUE))
   ) %>% 
   unnest(summary) %>% 
-  select(term) %>% 
-  table()
-  
-  
-  filter(term == "victim_sexMale")
-  
-  
-
-
-
-dplyrmutate(
+  filter(term == "x$victim_sexMale") %>% 
+  mutate(
     adjusted_OR = exp(estimate),
     adjusted_OR_ci_lower = exp(conf.low),
     adjusted_OR_ci_upper = exp(conf.high)
-  )
-  
+  ) %>% 
+  select(city_state, adjusted_OR:adjusted_OR_ci_upper, p.value)
 ```
+
+
 
 
 # Problem 3
