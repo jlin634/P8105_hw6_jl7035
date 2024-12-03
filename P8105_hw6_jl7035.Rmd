@@ -312,4 +312,8 @@ cv_df %>%
   ylab("RMSE") +
   ggtitle("RMSE by Model for Predicting Birthweight")
 ```
-
+Comparing the 3 models, we can see that the stepwise model outperforms both the 
+birth length and gestational model, and the head circumference, birth length, 
+and baby sex models. The median RMSE of the stepwise model appears to be a 
+bit below 275, which is less than the RMSE of the head_len_sex model (~285) and
+the blength_ga model (~325).
