@@ -222,6 +222,19 @@ model_all_vars <- lm(bwt ~ . , data = birthweight_df)
 stepwise_model <- step(model_all_vars, direction = "backward")
 summary(stepwise_model)
 ```
+
+## Function for Stepwise Regression
+
+```{r}
+build_stepwise = function(df) {
+  model_all_vars <- lm(bwt ~ . , data = df)
+  stepwise_model <- step(model_all_vars, direction = "backward")
+  
+  return(stepwise_model)
+}
+
+```
+
 ## Plot Model Predictions against Real Data
 
 ```{r}
@@ -256,9 +269,13 @@ bhead_blength_sex_model <- lm(bwt ~ bhead*blength*babysex, data = birthweight_df
 summary(bhead_blength_sex_model)
 ```
 
-## Model Comparison
+## Cross Validate each Model
 
 ```{r}
-
+cv_df <- 
+  modelr::crossv_mc(birthweight_df, 100) %>% 
+  mutate(
+    stepwise_mod = map(train, \(data) )
+  )
 ```
 
