@@ -167,8 +167,16 @@ log_model_city %>%
   ylab(label = "Adjusted Odds Ratio") +
   ggtitle("Odds Ratio of Crimes being Solved of Men Compared to Women by
           City") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5))
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
-
+We see the lowest adjusted odds ratio in New York City, where male victims of 
+crimes are less likely to have their crimes resolved. Inversely, the highest 
+odds ratio is found Albuquerque, where male victims of crimes are more likely to
+have their crimes resolved. It is also interesting to note that the cities with 
+the highest adjusted odds ratios also had the largest confidence intervals. 
+These large confidence intervals cross the threshold of 1, so it we cannot be 
+certain at a 95% confidence level that male victims are more likely to have 
+their crimes resolved. Also broadly, it appears that the confidence intervals 
+are increasing as the odds ratio increases.
 
 # Problem 3
